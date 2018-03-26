@@ -11,15 +11,20 @@ import UIKit
 class TodoListViewController: UITableViewController {
 
     var itemArray = ["Find Mike", "Destroy Demogorgon", "Buy Eggos", "Catch Yo Mom", "Buy Mac"]
-    
+    //users defaults database, where you store key value pairs. For Add New Item.
+    let defaults = UserDefaults.standard
     
     
 //-----------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        
-        
+        //  if defaults database array has anything inside, create items constant  {
+        //      change itemsArray to items
+        //      }
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+            }
         
         
         
@@ -65,6 +70,7 @@ class TodoListViewController: UITableViewController {
     //      create alert of type UIAlertController constant
     //      create alert action "Add Item" of type UIAlertAction, if pressed {
     //          change itemArray to add textfield input
+    //          save itemArray inside users default database and identify it as "TodoListArray"
     //          reload tableView
     //          }
     //      add/create alertTextField, of Type Trailing Closure {
@@ -79,6 +85,7 @@ class TodoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()
             //print(textField.text)
             //print("Item was added successfully!")
